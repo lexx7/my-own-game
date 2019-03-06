@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <div th:include="fragments/header :: head"></div>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">[Static.proto] ...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm mt-2">
+            <button class="btn" onclick='$.post("/clear-push"); location.reload();'>Clear Push</button>
+        </div>
+        <div class="col-sm-2 mt-2">
+            <button class="btn justify-content-end" onclick='$.post("/clear-all-users"); location.reload();'>Clear All Users</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm mt-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Date Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="person: ${persons}">
+                        <th scope="row" th:utext="${person.username}"></th>
+                        <th th:utext="${person.dateTime}"></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">[Static.proto] ...</div>
+</body>
+</html>

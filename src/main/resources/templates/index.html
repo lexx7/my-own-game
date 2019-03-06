@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <div th:include="fragments/header :: head"></div>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">[Static.proto] ...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm mt-2">
+            <form class="form-horizontal" method="post" th:action="@{/login}">
+                <div class="form-group">
+                    <label for="username">Name:</label>
+                    <input id="username" name="username" class="form-control" placeholder="Enter login" autofocus="autofocus" />
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form>
+            <p th:if="${param.logout}" class="alert alert-info mt-3">You have been logged out</p>
+
+            <p th:if="${param.error}" class="alert alert-danger mt-3"><span th:text="${param.error}"></span> </p>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">[Static.proto] ...</div>
+</body>
+</html>

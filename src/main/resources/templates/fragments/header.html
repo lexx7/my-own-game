@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="head">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+        <!-- CSS resources -->
+        <link href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css" rel="stylesheet" />
+
+        <!-- JS resources -->
+        <script type="text/javascript" src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    </div>
+</head>
+<body>
+<div th:fragment="header" id="header" class="alt">
+    <div class="row">
+        <div class="col-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">My own game</a>
+                <ul class="navbar-nav mr-auto">
+                    <span id="user-name" th:text="${param.username}"></span>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><form id="logoutForm" th:action="@{/logout}" method="post">
+                        <input type="hidden" name="username" th:value="${param.username}"/>
+                    </form></li>
+                    <li><a href="/" onclick="$('#logoutForm').submit();return false;"> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
