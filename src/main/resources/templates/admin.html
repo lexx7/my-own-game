@@ -14,6 +14,8 @@
     <div class="row">
         <div class="col-sm mt-2">
             <button class="btn" onclick='$.post("/clear-push"); location.reload();'>Clear Push</button>
+            <button class="btn" onclick='$.post("/change-state-push", {isPush: true}); location.reload();'>Start Game</button>
+            <button class="btn" onclick='$.post("/change-state-push", {isPush: false}); location.reload();'>Stop Game</button>
         </div>
         <div class="col-sm-2 mt-2">
             <button class="btn justify-content-end" onclick='$.post("/clear-all-users"); location.reload();'>Clear All Users</button>

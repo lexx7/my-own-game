@@ -1,5 +1,6 @@
 package com.example.myowngame;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -15,8 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+    public UserServiceImpl(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
+
+    private SimpMessagingTemplate messagingTemplate;
     private static Map<String, Instant> users = new HashMap<>();
-    private static boolean isPush = false;
 
     @Override
     public String add(String username) {
@@ -43,6 +48,14 @@ public class UserServiceImpl implements UserService {
         for (String username: users.keySet()) {
             users.put(username, null);
         }
+    }
+
+    @Override
+    public void changeStateGame(boolean isPush) {
+        if (isPush) {
+            clearPush();
+        }
+        messagingTemplate.convertAndSend("/topic/statePush", new StatePushMessage(isPush));
     }
 
     @Override

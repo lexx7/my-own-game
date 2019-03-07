@@ -14,4 +14,6 @@ public interface UserService {
     void clearAll();
 
     void clearPush();
+
+    void changeStateGame(boolean isPush);
 }

@@ -24,4 +24,9 @@ public class ApiController {
     public void clearPush() {
         userService.clearPush();
     }
+
+    @PostMapping("change-state-push")
+    public void changeStatePush(@RequestParam boolean isPush) {
+        userService.changeStateGame(isPush);
+    }
 }

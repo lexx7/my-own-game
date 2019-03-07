@@ -5,15 +5,55 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta charset="utf-8" />
     <div th:include="fragments/header :: head"></div>
+    <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
 </head>
 
 <body style="height: 100%;">
 <script>
-    function push() {
+    var stompClient = null;
+
+    function setConnected(connected) {
+      $("#connect").prop("disabled", connected);
+      $("#disconnect").prop("disabled", !connected);
+      if (connected) {
+        $("#conversation").show();
+      }
+      else {
+        $("#conversation").hide();
+      }
+      $("#greetings").html("");
+    }
+
+    function connect() {
+      var socket = new SockJS('/mog-socket');
+      stompClient = Stomp.over(socket);
+      stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/statePush', function (statePush) {
+          setStateButton(JSON.parse(statePush.body).enabled);
+        });
+      });
+    }
+
+    function setStateButton(isEnabled) {
+      if (isEnabled) {
+        $("#button-push").prop("disabled", false);
+      } else {
+        $("#button-push").prop("disabled", true);
+      }
+
+    }
+
+    $(function () {
+      connect();
+      $(document).on("click", "#button-push", function () {
         $.post("/push", {
           "username": $("#user-name").text()
         });
-    }
+      });
+    });
 </script>
 <style>
     .row, button, .card, .container {
@@ -50,14 +90,14 @@
 <div class="container">
     <div class="row">
         <div class="col-sm mt-2">
-            <button class="btn col-sm" onclick="push()">
-            <div class="card text-white bg-danger">
-                <div class="card-body card-text outer">
-                    <div class="inner text-center">
-                        Push harder!!!
+            <button id="button-push" class="btn col-sm" disabled="disabled">
+                <div class="card text-white bg-danger">
+                    <div class="card-body card-text outer">
+                        <div class="inner text-center">
+                            Push harder!!!
+                        </div>
                     </div>
                 </div>
-            </div>
             </button>
         </div>
     </div>
